@@ -1,0 +1,152 @@
+/* 轮播图容器 */
+.navigation-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 轮播图主体 */
+.keen-slider {
+  display: flex;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: 100%;
+}
+
+.keen-slider__slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.keen-slider__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 左右箭头 */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
+
+.arrow-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow-disabled:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 悬浮横条指示器 */
+.swiper-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.swiper-dot {
+  width: 30px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.swiper-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.swiper-dot.active {
+  background: rgba(255, 255, 255, 1);
+  width: 40px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .arrow {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .swiper-dots {
+    bottom: 15px;
+  }
+  
+  .swiper-dot {
+    width: 25px;
+    height: 3px;
+  }
+  
+  .swiper-dot.active {
+    width: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .arrow {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .arrow-left {
+    left: 5px;
+  }
+  
+  .arrow-right {
+    right: 5px;
+  }
+  
+  .swiper-dots {
+    bottom: 10px;
+    gap: 6px;
+  }
+  
+  .swiper-dot {
+    width: 20px;
+    height: 3px;
+  }
+  
+  .swiper-dot.active {
+    width: 30px;
+  }
+} 
