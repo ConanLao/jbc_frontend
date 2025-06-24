@@ -1,0 +1,90 @@
+.dropzone {
+  border: 2px dashed;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  border-color: #3b82f6;
+}
+
+.dropzone:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.file-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+.file-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-preview i {
+  font-size: 1.5rem;
+  color: #6b7280;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.file-size {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.bs-12 {
+  width: 3rem;
+  height: 3rem;
+}
+
+.is-12 {
+  width: 3rem;
+  height: 3rem;
+}
+
+.mbe-9 {
+  margin-bottom: 2.25rem;
+}
+
+.mbe-2\.5 {
+  margin-bottom: 0.625rem;
+}
+
+.text-center {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+} 

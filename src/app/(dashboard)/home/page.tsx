@@ -1,4 +1,3 @@
-
 "use client";
 
 import CustomAvatar from "@/@core/components/mui/Avatar";
@@ -7,9 +6,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import SwiperControls from "./components/swiper";
+import FileUploaderRestrictions from "./components/FileUploaderRestrictions";
 
 const IMEI = "1735781913";
-const SERVER_ADDRESS = "https://juice-box.info/";
+const SERVER_ADDRESS = "https://juice-box.info";
 // const SERVER_ADDRESS = "http://127.0.0.1:8080";
 
 export type Video = {
@@ -33,7 +34,6 @@ export type Config = {
 
 export default function Page() {
   // States
-  const [files, setFiles] = useState<File[]>([]);
   const [imageList, setImageList] = useState<Array<string>>([]);
 
   async function fetchScreenResources() {
@@ -91,16 +91,22 @@ export default function Page() {
     }
   };
 
-  const handleUploadFiles = async () => {
-    if (files) {
-      const formData = new FormData();
+  const handleUploadFiles = async (files: File[]) => {
+    if (files.length === 0) {
+      alert("请选择要上传的文件");
+      return;
+    }
 
+    try {
+      const formData = new FormData();
+      formData.append("imei", IMEI);
+      
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        formData.append("resources", file, file.name);
       }
-
-      formData.append("imei", IMEI);
-      await fetch(
+      
+      const response = await fetch(
         `${SERVER_ADDRESS}/v1/stations/${IMEI}/interview_upload_screen_resources`,
         {
           method: "POST",
@@ -108,6 +114,17 @@ export default function Page() {
           body: formData,
         }
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // 上传成功后重新获取图片列表，更新Part 1和Part 2
+      await fetchScreenResources();
+      alert("图片上传成功！");
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      alert("图片上传失败，请重试");
     }
   };
 
@@ -132,25 +149,54 @@ export default function Page() {
             </CustomAvatar>
             <Typography variant="h5">Screen and Advertising</Typography>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mbe-2">
             <Divider />
-            <Typography variant="h1">Part 1 Content</Typography>
+            <div className="flex">
+              <div className="w-1/2" style={{ aspectRatio: '4/5', overflow: 'hidden', position: 'relative' }}>
+                <SwiperControls images={imageList} />
+              </div>
+              <div className="w-1/2" style={{ aspectRatio: '4/5', overflow: 'hidden' }}>
+                <img 
+                  src="https://bajie-machines.s3.us-east-1.amazonaws.com/common/screen_right_side.png" 
+                  alt="Right side screen" 
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
           </div>
+          <div className="flex gap-3 items-center mbe-2">
+              <CustomAvatar
+                color="primary"
+                variant="rounded"
+                size={30}
+                skin="filled"
+              >
+                <i className="tabler-photo"></i>
+              </CustomAvatar>
+              <Typography variant="h5">Uploaded Resources</Typography>
+            </div>
           <div className="flex flex-col gap-4">
-            <Typography variant="h1">Part 2 header</Typography>
+            
             <div className="flex flex-col gap-4">
               <Divider />
-              <Typography variant="h1">Part 2 Content</Typography>
-              {imageList.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Image ${index + 1}`}
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ))}
-              <Typography variant="h1">Replace this with part 3</Typography>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {imageList.map((url, index) => (
+                  <div
+                    key={index}
+                    className="relative aspect-[5/4]"
+                  >
+                    <img
+                      src={url}
+                      alt={`Image ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <FileUploaderRestrictions onUpload={handleUploadFiles} />
           </div>
           {/* 不要改动这个button，仅供调试使用。 */}
           <Button
